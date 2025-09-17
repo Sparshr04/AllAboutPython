@@ -8,6 +8,7 @@ for turtle in range(0,3):
     new_part.color('white')
     turtle_body.append(new_part)
 
+
 def forward():
     turtle_body[0].forward(30)
     position = turtle_body[0].pos()

@@ -1,5 +1,5 @@
 from turtle import Turtle, Screen
-
+import time
 # tim = Turtle(shape='square')
 # tim.color('white')
 starting_position = [(0,0), (-20, 0), (-40, 0)]
@@ -8,6 +8,7 @@ turtle_body = []
 screen = Screen()
 screen.bgcolor("black")
 screen.title("Snake Game")
+screen.tracer(0)
 
 # for turtle in range(0,3):
 #     new_part = Turtle(shape='square')
@@ -16,15 +17,24 @@ screen.title("Snake Game")
 for position in starting_position:
     new_segment = Turtle(shape='square')
     new_segment.color('white')
+    new_segment.pu()
     new_segment.goto(position)
     turtle_body.append(new_segment)
 
 game_is_on = True
 
 while game_is_on:
-    for seg in turtle_body:
-        seg.forward(20)
+    screen.update()
+    time.sleep(0.1)
+    # for seg in turtle_body:
+    #     seg.forward(20)
+    for seg in range(len(turtle_body)-1, 0, -1):
+        new_x = turtle_body[seg-1].xcor()
+        new_y = turtle_body[seg-1].ycor()
+        turtle_body[seg].goto(new_x, new_y)
 
+    turtle_body[0].forward(20)
+    turtle_body[0].right(90)
 
 # def forward():
 #     turtle_body[0].forward(30)

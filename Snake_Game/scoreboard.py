@@ -11,7 +11,9 @@ class Score(Turtle):
         self.hideturtle()
         self.goto(-10, 275)
         self.count = 0
-        self.high_score = 0
+        # self.high_score = 0
+        with open("data.txt") as data:
+            self.high_score = int(data.read())
         self.score_update()
 
     def collusion(self):
@@ -30,6 +32,9 @@ class Score(Turtle):
     def reset_score(self):
         if self.count > self.high_score:
             self.high_score = self.count
+            with open("data.txt", mode="w") as data:
+                data.write(f"{self.high_score}")
+
         self.count = 0
         self.score_update()
         

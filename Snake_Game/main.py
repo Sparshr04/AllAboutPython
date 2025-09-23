@@ -34,10 +34,11 @@ while game_is_on:
         score.collusion()
         snake.extend()
 
-    #detect collusion with food
+    #detect collusion with foo
     if snake.head.xcor() > 280 or snake.head.xcor() < -280 or snake.head.ycor() > 280 or snake.head.ycor() < -280:
-        game_is_on = False
-        score.game_over()
+        # game_is_on = False
+        score.reset_score()
+        snake.reset()
 
     #detect collusion with tail
     # We can either loop through the segments in the snake body. Except the head.
@@ -53,8 +54,9 @@ while game_is_on:
     #string saving use some Time complexity and moving us to professionalism
     for segment in snake.segments[1:]:
         if snake.head.distance(segment) < 18:
-            game_is_on=False
-            score.game_over()
+            # game_is_on=False
+            score.reset_score()
+            snake.reset()
 
 
 screen.exitonclick()

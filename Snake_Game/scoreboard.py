@@ -11,6 +11,7 @@ class Score(Turtle):
         self.hideturtle()
         self.goto(-10, 275)
         self.count = 0
+        self.high_score = 0
         self.score_update()
 
     def collusion(self):
@@ -19,10 +20,17 @@ class Score(Turtle):
         self.score_update()
 
     def score_update(self):
-        self.write(f'Score: {self.count}', move=False, align=ALIGNMENT, font=FONT)
+        self.clear()
+        self.write(f'Score: {self.count} | High Score: {self.high_score}', move=False, align=ALIGNMENT, font=FONT)
         
-    def game_over(self):
-        self.goto(0,0)
-        self.write(f"GAME OVER", align=ALIGNMENT, font=FONT)
+    # def game_over(self):
+    #     self.goto(0,0)
+    #     self.write(f"GAME OVER", align=ALIGNMENT, font=FONT)
+
+    def reset_score(self):
+        if self.count > self.high_score:
+            self.high_score = self.count
+        self.count = 0
+        self.score_update()
         
 

@@ -1,44 +1,62 @@
-from turtle import Turtle, Screen
-
-# tim = Turtle(shape='square')
-# tim.color('white')
-turtle_body = []
-for turtle in range(0,3):
-    new_part = Turtle(shape='square')
-    new_part.color('white')
-    turtle_body.append(new_part)
-
-
-def forward():
-    turtle_body[0].forward(30)
-    position = turtle_body[0].pos()
-    turtle_body[1].goto(-21 + position[0],0 + position[1])
-    turtle_body[2].goto(-41 + position[0],0 + position[1])
-    
-
-def left():
-    turtle_body[0].left(90)
-    position = turtle_body[0].pos()
-    turtle_body[1].goto(-21 + position[0],0 + position[1])
-    turtle_body[2].goto(-41 + position[0],0 + position[1])
-
-def right():
-    turtle_body[0].right(90)
-    position = turtle_body[0].pos()
-    turtle_body[1].goto(-21 + position[0],0 + position[1])
-    turtle_body[2].goto(-41 + position[0],0 + position[1])
-
-# position = turtle_body[0].pos()
-# turtle_body[1].goto(-21 + position[0],0 + position[1])
-# turtle_body[2].goto(-41 + position[0],0 + position[1])
-# turtle_body[3].goto(-21,0)
-
+from turtle import Screen
+from snake import Snake
+from food import Food
+from scoreboard import Score
+import time
 
 screen = Screen()
 screen.bgcolor("black")
+screen.setup(width=600, height=600)
 screen.title("Snake Game")
+screen.tracer(0)
+
+snake = Snake()
+food = Food()
+score = Score()
+
 screen.listen()
-screen.onkey(key='w', fun=forward)
-screen.onkey(key='a', fun=left)
-screen.onkey(key='d', fun=right)
+screen.onkey(fun=snake.up, key="Up")
+screen.onkey(snake.down, "Down")
+screen.onkey(snake.right, "Right")
+screen.onkey(snake.left, "Left")
+game_is_on = True
+
+while game_is_on:
+    screen.update()
+    time.sleep(0.1)
+
+    snake.move()
+
+    # Check collison with food
+    if snake.head.distance(food) < 15:
+        print("nom nom nom")
+        food.refresh()
+        score.collusion()
+        snake.extend()
+
+    #detect collusion with foo
+    if snake.head.xcor() > 280 or snake.head.xcor() < -280 or snake.head.ycor() > 280 or snake.head.ycor() < -280:
+        # game_is_on = False
+        score.reset_score()
+        snake.reset()
+
+    #detect collusion with tail
+    # We can either loop through the segments in the snake body. Except the head.
+    # for segment in snake.segments:
+    #     if segment == snake.head:
+    #         pass
+    #     elif snake.head.distance(segment) < 18:
+    #         game_is_on = False
+    #         score.game_over()
+
+
+    #Or we can use String Slicing in Python. Here instead of writing a IF_ELIF statement, we can just slice the 
+    #string saving use some Time complexity and moving us to professionalism
+    for segment in snake.segments[1:]:
+        if snake.head.distance(segment) < 18:
+            # game_is_on=False
+            score.reset_score()
+            snake.reset()
+
+
 screen.exitonclick()
